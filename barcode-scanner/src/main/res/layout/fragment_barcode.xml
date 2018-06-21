@@ -15,7 +15,7 @@
     <com.barcode.ScannerOverlay
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#1b000000"
+        android:background="#6a000000"
         app:line_color="#b31c76"
         app:line_speed="6"
         app:line_width="4"

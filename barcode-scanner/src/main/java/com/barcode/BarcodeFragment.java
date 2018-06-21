@@ -3,6 +3,7 @@ package com.barcode;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
     private static final String TAG = BarcodeFragment.class.getSimpleName();
     private BarcodeReader barcodeReader;
     private BarcodeDetector barcodeDetector;
+
     public BarcodeFragment() {
 
     }
@@ -47,13 +49,17 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
 
     @Override
     public void onScanned(final Barcode barcode) {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
         barcodeReader.playBeep();
-        getActivity().runOnUiThread(new Runnable() {
+
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
-                if(barcodeDetector!=null)
-                {
+                Toast.makeText(activity, "Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                if (barcodeDetector != null) {
                     barcodeDetector.onBarcodeDetect(barcode.displayValue);
                 }
             }
@@ -62,13 +68,17 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
 
     @Override
     public void onScannedMultiple(List<Barcode> barcodes) {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
         Log.e(TAG, "onScannedMultiple: " + barcodes.size());
         StringBuilder codes = new StringBuilder();
         for (Barcode barcode : barcodes) {
             codes.append(barcode.displayValue).append(", ");
         }
         final String finalCodes = codes.toString();
-        getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getActivity(), "Barcodes: " + finalCodes, Toast.LENGTH_SHORT).show();
@@ -88,7 +98,11 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
 
     @Override
     public void onCameraPermissionDenied() {
-        getActivity().runOnUiThread(new Runnable() {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getActivity(), "Camera Permission Denied!!", Toast.LENGTH_SHORT).show();

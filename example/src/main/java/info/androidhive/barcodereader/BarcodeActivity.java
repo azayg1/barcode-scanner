@@ -1,13 +1,16 @@
 package info.androidhive.barcodereader;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.barcode.BarcodeFragment;
 
-public class BarcodeFragmentTestActivity extends AppCompatActivity implements BarcodeFragment.BarcodeDetector {
+public class BarcodeActivity extends AppCompatActivity implements BarcodeFragment.BarcodeDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,11 @@ public class BarcodeFragmentTestActivity extends AppCompatActivity implements Ba
 
     @Override
     public void onBarcodeDetect(String barcode) {
-
+        if (!TextUtils.isEmpty(barcode)) {
+            Intent data = new Intent();
+            data.putExtra(MainActivity.KEY_BARCODE, barcode);
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 }

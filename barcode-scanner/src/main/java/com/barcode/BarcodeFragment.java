@@ -58,7 +58,7 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(activity, "Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
+
                 if (barcodeDetector != null) {
                     barcodeDetector.onBarcodeDetect(barcode.displayValue);
                 }
@@ -78,12 +78,7 @@ public class BarcodeFragment extends Fragment implements BarcodeReader.BarcodeRe
             codes.append(barcode.displayValue).append(", ");
         }
         final String finalCodes = codes.toString();
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), "Barcodes: " + finalCodes, Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
